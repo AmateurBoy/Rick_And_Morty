@@ -2,9 +2,10 @@
 .NET client for Rick And Morty knowledge base api: https://rickandmortyapi.com/
 ![This is an image](https://rickandmortyapi.com/api/character/avatar/487.jpeg)
 
-Простая и урезаная оболочка для Rick and Morty API.
-В которой содержиться 2 метода.
+A simple and stripped down wrapper for the Rick and Morty API. 
+Which contains 2 methods.
 
+---
 ```C#
 RequestHandlerAPI RequestAPI = new();
 	string personName = "Rick Sanchez";
@@ -14,11 +15,12 @@ RequestHandlerAPI RequestAPI = new();
 	//response: true;
 ```
 
+---
 ```C#
 	RequestHandlerAPI RequestAPI = new();
 	CharacterDTO? characterDTO = await requestAPI.GiveDTObyName("Rick Sanchez");
-```
-/* response: 
+/* 
+response: 
 {   
     "name": "Rick Sanchez",
     "status": "Alive",
@@ -32,8 +34,10 @@ RequestHandlerAPI RequestAPI = new();
     }
 }
 */
+```
+---
 
-Оболочка наследует другую оболочку :)
+A shell inherits another shell :yum:
 [Carlj28/RickAndMorty.Net.Api](https://github.com/Carlj28/RickAndMorty.Net.Api)
 
 
