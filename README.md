@@ -11,7 +11,7 @@ RequestHandlerAPI RequestAPI = new();
 	string personName = "Rick Sanchez";
 	string episodeName = "Pilot";
 	//response: StatusCode OK,NameNotCorrect,Error
-	RequestAPI.Is—haracterInTheEpisode(personName, episodeName);
+	RequestAPI.Is–°haracterInTheEpisode(personName, episodeName);
 	//response: true;
 ```
 
