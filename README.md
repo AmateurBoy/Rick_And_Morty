@@ -6,7 +6,7 @@ A simple and stripped down wrapper for the Rick and Morty API.
 Which contains 2 methods.
 
 ---
-```C#
+```cs
 RequestHandlerAPI RequestAPI = new();
 	string personName = "Rick Sanchez";
 	string episodeName = "Pilot";
@@ -16,7 +16,7 @@ RequestHandlerAPI RequestAPI = new();
 ```
 
 ---
-```C#
+```cs
 	RequestHandlerAPI RequestAPI = new();
 	CharacterDTO? characterDTO = await requestAPI.GiveDTObyName("Rick Sanchez");
 /* 
