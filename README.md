@@ -7,7 +7,7 @@ Which contains 2 methods.
 
 ---
 ```cs
-RequestHandlerAPI RequestAPI = new();
+    RequestHandlerAPI RequestAPI = new();
 	string personName = "Rick Sanchez";
 	string episodeName = "Pilot";
 	//response: StatusCode OK,NameNotCorrect,Error

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Rick_And_Morty.DTO;
+using Rick_And_Morty.Convertor;
+using Rick_And_Morty.Data;
 using Rick_And_Morty.Services;
-using System.Collections;
-using System.Net;
 
 namespace Rick_And_Morty.Controllers
 {
@@ -18,14 +17,14 @@ namespace Rick_And_Morty.Controllers
         [HttpPost("/api/v1/check-person")]
         public async Task<IActionResult> CheckPerson([FromBody]ComplianceRequest complianceRequest)
         {
-            DTO.StatusCode status = await requestAPI.IsСharacterInTheEpisode(complianceRequest.personName, complianceRequest.episodeName);
+            StatusCode status = await requestAPI.IsСharacterInTheEpisode(complianceRequest.personName, complianceRequest.episodeName);
             switch (status)
             {
-                case DTO.StatusCode.OK:
+                case Services.StatusCode.OK:
                     return Json(true);                    
-                case DTO.StatusCode.NameNotCorrect:
+                case Services.StatusCode.NameNotCorrect:
                     return Json(false);                    
-                case DTO.StatusCode.Error:
+                case Services.StatusCode.Error:
                     return StatusCode(404);                    
                 default:
                     return Json("Unhandled Exception");                    
@@ -34,13 +33,22 @@ namespace Rick_And_Morty.Controllers
         [HttpGet("/api/v1/person")]
         public async Task<IActionResult> Person(string name)
         {
-            CharacterDTO characterDTO = await requestAPI.GiveDTObyName(name);
-            if (characterDTO!=null) return Json(characterDTO);
+            State stateCharacterDTO = await requestAPI.GiveDTObyName(name);
+            if (stateCharacterDTO != null)
+            {
+                if(!stateCharacterDTO.isCacheNull)
+                return Json(stateCharacterDTO.characterDTO);
+                else
+                {
+                    return StatusCode(404);
+                }
+            }
             else
             {
                 return StatusCode(404);
             }
         }
+        
 
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Rick_And_Morty.DTO;
 using RickAndMorty.Net.Api.Models.Domain;
 
-namespace Rick_And_Morty.Services
+namespace Rick_And_Morty.Services.Convertor
 {
     public class Convertor : IConvertor<Character, CharacterDTO>
     {
         public Character Convert(CharacterDTO dto)
         {
-            throw new NotImplementedException("Нет необходимости в обратной конвертации");       
+            throw new NotImplementedException("Нет необходимости в обратной конвертации");
         }
         public CharacterDTO Convert(Character Base)
         {
