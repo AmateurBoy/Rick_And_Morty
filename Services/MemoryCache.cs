@@ -28,10 +28,9 @@ namespace Rick_And_Morty.Services
             }
             return value;
         }
-        public StatusCode GetCacheStatusCode(string key)
+        public StatusCode? GetCacheStatusCode(string key)
         {
-            StatusCode value;
-            value = (StatusCode)_cache.Get(key);
+            var value = (StatusCode?)_cache.Get(key);
             if (value != null)
             {
                 return value;

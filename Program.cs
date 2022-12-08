@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddTransient<MemoryCache>();
-builder.Services.AddTransient<RequestHandlerAPI>();
+builder.Services.AddTransient<Service>();
 
 
 

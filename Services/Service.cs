@@ -4,26 +4,28 @@ using RickAndMorty.Net.Api.Factory;
 using RickAndMorty.Net.Api.Models.Domain;
 using RickAndMorty.Net.Api.Service;
 using Rick_And_Morty.Data;
+using Microsoft.AspNetCore.Mvc;
+using Rick_And_Morty.Convertor;
 
 namespace Rick_And_Morty.Services
 {
-    public class RequestHandlerAPI
+    public class Service
     {
         readonly IRickAndMortyService _service = RickAndMortyApiFactory.Create();
         readonly Services.Convertor.Convertor _convertor = new();
         readonly MemoryCache _memoryCache;
-        public RequestHandlerAPI(MemoryCache memoryCache)
+        public Service(MemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }
-        public async Task<StatusCode> IsСharacterInTheEpisode(string? nameCharacter, string? nameEpisode)
+        
+        public async Task<StatusCode?> StatusCodeValidationData(string? nameCharacter, string? nameEpisode)
         {
             string key = nameCharacter + nameEpisode;
             try
             {
-                
-                StatusCode statusCode = _memoryCache.GetCacheStatusCode(key);
-                if(statusCode!=null)
+                StatusCode? statusCode = _memoryCache.GetCacheStatusCode(key);
+                if (statusCode != null)
                 {
                     return statusCode;
                 }

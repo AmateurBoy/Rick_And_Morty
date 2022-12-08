@@ -8,32 +8,21 @@ namespace Rick_And_Morty.Controllers
     [ApiController]
     public class DataValidationController : Controller
     {
-        readonly RequestHandlerAPI requestAPI;
-        public DataValidationController(RequestHandlerAPI requestHandlerAPI)
+        readonly Service _service;
+        public DataValidationController(Service service)
         {
-            requestAPI = requestHandlerAPI;
+            _service = service;
         }
 
         [HttpPost("/api/v1/check-person")]
         public async Task<IActionResult> CheckPerson([FromBody]ComplianceRequest complianceRequest)
         {
-            StatusCode status = await requestAPI.IsСharacterInTheEpisode(complianceRequest.personName, complianceRequest.episodeName);
-            switch (status)
-            {
-                case Services.StatusCode.OK:
-                    return Json(true);                    
-                case Services.StatusCode.NameNotCorrect:
-                    return Json(false);                    
-                case Services.StatusCode.Error:
-                    return StatusCode(404);                    
-                default:
-                    return Json("Unhandled Exception");                    
-            }
+            return await this.IsСharacterInTheEpisodeAsync(_service, complianceRequest.personName, complianceRequest.episodeName);
         }
         [HttpGet("/api/v1/person")]
-        public async Task<IActionResult> Person(string name)
+        public async Task<IActionResult> PersonInfo(string name)
         {
-            State stateCharacterDTO = await requestAPI.GiveDTObyName(name);
+            State stateCharacterDTO = await _service.GiveDTObyName(name);
             if (stateCharacterDTO != null)
             {
                 if(!stateCharacterDTO.isCacheNull)
