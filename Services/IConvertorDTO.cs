@@ -3,7 +3,6 @@
     public interface IConvertor<Base,DTO>
     {
         public Base Convert(DTO dto);
-        public DTO Convert(Base Base);
-       
+        public DTO Convert(Base Base);       
     }
 }

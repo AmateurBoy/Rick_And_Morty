@@ -9,32 +9,33 @@ namespace Rick_And_Morty.Controllers
     [ApiController]
     public class DataValidationController : Controller
     {
-        RequestHandlerAPI requestAPI = new RequestHandlerAPI();
+        readonly RequestHandlerAPI requestAPI;
+        public DataValidationController(RequestHandlerAPI requestHandlerAPI)
+        {
+            requestAPI = requestHandlerAPI;
+        }
 
         [HttpPost("/api/v1/check-person")]
-        public async Task<IActionResult> checkPerson([FromBody]ComplianceRequest complianceRequest)
+        public async Task<IActionResult> CheckPerson([FromBody]ComplianceRequest complianceRequest)
         {
-            DTO.StatusCode status = requestAPI.Post(complianceRequest.personName, complianceRequest.episodeName);
-            if (status == DTO.StatusCode.OK)
+            DTO.StatusCode status = await requestAPI.IsСharacterInTheEpisode(complianceRequest.personName, complianceRequest.episodeName);
+            switch (status)
             {
-                return Json(true);
+                case DTO.StatusCode.OK:
+                    return Json(true);                    
+                case DTO.StatusCode.NameNotCorrect:
+                    return Json(false);                    
+                case DTO.StatusCode.Error:
+                    return StatusCode(404);                    
+                default:
+                    return Json("Unhandled Exception");                    
             }
-            else if(status == DTO.StatusCode.NameNotCorrect)
-            {
-                return Json(false);
-            }
-            else
-            {
-                return StatusCode(404);
-            }
-           
         }
         [HttpGet("/api/v1/person")]
-        public async Task<IActionResult> person(string name)
+        public async Task<IActionResult> Person(string name)
         {
-            CharacterDTO characterDTO = requestAPI.Get(name);
-            if (characterDTO.name !=null)
-            return Json(characterDTO);
+            CharacterDTO characterDTO = await requestAPI.GiveDTObyName(name);
+            if (characterDTO!=null) return Json(characterDTO);
             else
             {
                 return StatusCode(404);

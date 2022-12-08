@@ -7,10 +7,8 @@ namespace Rick_And_Morty.Services
     {
         public Character Convert(CharacterDTO dto)
         {
-            throw new NotImplementedException();
-       
+            throw new NotImplementedException("Нет необходимости в обратной конвертации");       
         }
-
         public CharacterDTO Convert(Character Base)
         {
             CharacterDTO characterDTO = new()

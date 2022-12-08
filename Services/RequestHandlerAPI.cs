@@ -7,66 +7,66 @@ using RickAndMorty.Net.Api.Service;
 
 namespace Rick_And_Morty.Services
 {
-    //using labery Rick.Net 
+    
     public class RequestHandlerAPI
     {
         IRickAndMortyService service = RickAndMortyApiFactory.Create();
         Convertor convertor = new();
-
-        public StatusCode Post(string nameCharacter, string nameEpisode)
+        public async Task<StatusCode> IsСharacterInTheEpisode(string nameCharacter, string nameEpisode)
         {
             try
             {
-                var per = service.FilterCharacters(nameCharacter).Result;
-                var Chart = per.FirstOrDefault(x => x.Name == nameCharacter);
-                if(Chart == null)
+                //Дополнительная проверка на сооответствие имени.
+                //Если имя все же не совпало значит имени не существует в базе дынных
+                #region Checking the character's name
+                var CharactersTest =await service.FilterCharacters(nameCharacter);
+                var ResultCharacter = CharactersTest.FirstOrDefault(x => x.Name == nameCharacter);
+                if(ResultCharacter == null)
                 {
                     return StatusCode.Error;
                 }
-                var Epis = service.FilterEpisodes(nameEpisode).Result;                
-                //Segments[3] => id Character;
-                var Shem = Epis.Select(x => x.Characters.Select(x => x.Segments[3])).ToArray();
-                var idCharacter = Shem[0].ToArray();
+                #endregion
 
-                var Characters = service.GetMultipleCharacters(Array.ConvertAll(idCharacter, s => int.Parse(s))).Result;
-
-                var result = Characters.Where(x => x.Name == nameCharacter).Count();
-                if (result > 0) return StatusCode.OK;
+                var Episode =await service.FilterEpisodes(nameEpisode);                
+                //Segments[3] => id Character
+                var Segments = Episode.Select(x => x.Characters.Select(x => x.Segments[3])).ToArray();
+                var idCharacter = Segments[0].ToArray();
+                //Получаем всех персонажей из єпизода.
+                var Characters =await service.GetMultipleCharacters(Array.ConvertAll(idCharacter, s => int.Parse(s)));
+                //Проверка по имени.
+                var result = Characters.FirstOrDefault(x => x.Name == nameCharacter);
+                if (result != null) return StatusCode.OK;
                 return StatusCode.NameNotCorrect;
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode.Error;
             }
-
-            
-        }
-        public CharacterDTO Get(string name)
+        }        
+        public async Task<CharacterDTO?> GiveDTObyName(string name)
         {
-            CharacterDTO characterDTO = new();
+            CharacterDTO? characterDTO = new();
             try
             {
-                var Characters = service.FilterCharacters(name).Result;
+                var Characters = await service.FilterCharacters(name);
                 var Character = Characters.FirstOrDefault(x => x.Name == name);
-                if(Character != null)
+                if (Character != null)
                 {
                     characterDTO = convertor.Convert(Character);
-                    var location = service.GetLocation(int.Parse(Character.Origin.Url.Segments[3])).Result;
+                    var location = await service.GetLocation(int.Parse(Character.Origin.Url.Segments[3]));
                     characterDTO.origin.dimension = location.Dimension;
                     characterDTO.origin.type = location.Type;
-                    
-
-                    
                     return characterDTO;
                 }
-                return characterDTO;
+                return null;
             }
-            catch
+            catch(Exception ex)
             {
-                return characterDTO;
+                return null;
             }
             
             
         }
+                
     }
 }
