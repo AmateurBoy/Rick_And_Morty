@@ -15,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddTransient<IMemoryCache,MemoryCache>();
 builder.Services.AddTransient<IConvertor<Character,CharacterDTO>,Convertor>();
 builder.Services.AddTransient<Service>();
 

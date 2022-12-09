@@ -16,10 +16,9 @@ namespace Rick_And_Morty.Services
     {
         readonly IRickAndMortyService EmbeddedService = RickAndMortyApiFactory.Create();
         readonly IConvertor<Character,CharacterDTO> convertor;
-         private IMemoryCache memoryCache;
+        private IMemoryCache memoryCache = new MemoryCache(new MemoryCacheOptions());
         public Service(IMemoryCache memoryCache, IConvertor<Character,CharacterDTO> convertor)
         {
-            this.memoryCache = memoryCache;
             this.convertor = convertor;
         }
         
@@ -45,30 +44,47 @@ namespace Rick_And_Morty.Services
                 var ResultCharacter = CharactersTest.FirstOrDefault(x => x.Name == nameCharacter);
                 if(ResultCharacter == null)
                 {
-                    memoryCache.Set(key, new Exception("NameNotCorrect"));
-                    throw new Exception("NameNotCorrect");
+                    var ex = new Exception("NameNotCorrect");
+                    memoryCache.Set(key, ex, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
+                    }); ;
+                    throw ex;
                 }
                 #endregion
 
                 var Episode = EmbeddedService.FilterEpisodes(nameEpisode).Result;
+
                 //Segments[3] => id Character
                 var Segments = Episode.Select(x => x.Characters.Select(x => x.Segments[3])).ToArray();
                 var idCharacter = Segments[0].ToArray();
+
                 //Получаем всех персонажей из єпизода.
                 var Characters =await EmbeddedService.GetMultipleCharacters(Array.ConvertAll(idCharacter, s => int.Parse(s)));
+
                 //Проверка по имени.
                 var result = Characters.FirstOrDefault(x => x.Name == nameCharacter);
                 if (result != null)
                 {
-                    memoryCache.Set(key, true);
+                    memoryCache.Set(key, true ,new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
+                    });
                     return true;
                 }
-                memoryCache.Set(key, false);
+                memoryCache.Set(key, false, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
+                });
                 return false;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                throw new Exception("Not Found");
+                memoryCache.Set(key, ex, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
+                });
+                throw ex;
             }
         }        
         //public async Task<State?> GiveDTObyName(string name)
