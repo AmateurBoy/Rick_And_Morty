@@ -7,10 +7,10 @@ namespace Rick_And_Morty.Controllers
     [ApiController]
     public class CustomRickAndMorty : Controller
     {
-        readonly Service _service;
+        readonly Service service;
         public CustomRickAndMorty(Service service)
         {
-            _service = service;
+            this.service = service;
         }
 
         [HttpPost("/api/v1/check-person")]
@@ -18,7 +18,7 @@ namespace Rick_And_Morty.Controllers
         {
             try
             {
-                return Json(await _service.IsValidationData(complianceRequest.personName, complianceRequest.episodeName));
+                return Json(await service.IsValidationDataAsync(complianceRequest.personName, complianceRequest.episodeName));
             }
             catch
             {
@@ -29,7 +29,14 @@ namespace Rick_And_Morty.Controllers
         [HttpGet("/api/v1/person")]
         public async Task<IActionResult> PersonInfo(string name)
         {
-            return Ok();            
+            try
+            {
+                return Json(await service.GetCharacterbyNameAsync(name));
+            }
+            catch
+            {
+                return NotFound();
+            }         
         }
         
 

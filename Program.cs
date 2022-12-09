@@ -17,9 +17,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.AddTransient<IConvertor<Character,CharacterDTO>,Convertor>();
 builder.Services.AddTransient<Service>();
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

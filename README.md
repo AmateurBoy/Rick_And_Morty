@@ -7,32 +7,33 @@ Which contains 2 methods.
 
 ---
 ```cs
-    RequestHandlerAPI RequestAPI = new();
+    Service service = new();
 	string personName = "Rick Sanchez";
 	string episodeName = "Pilot";
-	//response: StatusCode OK,NameNotCorrect,Error
-	RequestAPI.IsСharacterInTheEpisode(personName, episodeName);
-	//response: true;
+	await service.IsValidationDataAsync(personName, episodeName);
+	//response: true or false or Exception("NotFound");
 ```
 
 ---
 ```cs
-	RequestHandlerAPI RequestAPI = new();
-	CharacterDTO? characterDTO = await requestAPI.GiveDTObyName("Rick Sanchez");
+	Service service = new();
+	CharacterDTO? characterDTO = await requestAPI.GetCharacterbyNameAsync("Rick Sanchez");
 /* 
 response: 
-{   
-    "name": "Rick Sanchez",
-    "status": "Alive",
-    "species": "Human",
-    "type": "",
-    "gender": "Male",
-    "origin": {
-        "name": "Earth (C-137)",
-        "type": "Planet",
-        "dimension": "Dimension C-137"
+    {   
+        "name": "Rick Sanchez",
+        "status": "Alive",
+        "species": "Human",
+        "type": "",
+        "gender": "Male",
+        "origin": {
+            "name": "Earth (C-137)",
+            "type": "Planet",
+            "dimension": "Dimension C-137"
+        }
     }
-}
+    or
+    Exeption("NotFound")
 */
 ```
 ---

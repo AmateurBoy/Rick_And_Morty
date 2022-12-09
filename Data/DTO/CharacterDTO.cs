@@ -7,7 +7,7 @@
         public string? species { get; set; }
         public string? type { get; set; }
         public string? gender { get; set; }
-        public Origin? origin { get; set; }
+        public Origin? origin {get;set;}
     }
     public class Origin
     {
