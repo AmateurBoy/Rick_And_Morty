@@ -7,17 +7,17 @@ Which contains 2 methods.
 
 ---
 ```cs
-    IRickAndMortyCachedService service = new RickAndMortyCachedService();
-	string personName = "Rick Sanchez";
-	string episodeName = "Pilot";
-	await service.IsValidationDataAsync(personName, episodeName);
-	//response: true or false or Exception("NotFound");
+IRickAndMortyCachedService service = new RickAndMortyCachedService();
+string personName = "Rick Sanchez";
+string episodeName = "Pilot";
+await service.IsValidationDataAsync(personName, episodeName);
+//response: true or false or Exception("NotFound");
 ```
 
 ---
 ```cs
-	IRickAndMortyCachedService service = new RickAndMortyCachedService();
-	CharacterDTO? characterDTO = await requestAPI.GetCharacterbyNameAsync("Rick Sanchez");
+IRickAndMortyCachedService service = new RickAndMortyCachedService();
+CharacterDTO? characterDTO = await service.GetCharacterbyNameAsync("Rick Sanchez");
 /* 
 response: 
     {   
