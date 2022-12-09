@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddTransient<IConvertor<Character,CharacterDTO>,Convertor>();
-builder.Services.AddTransient<Service>();
+builder.Services.AddTransient<IRickAndMortyCachedService,RickAndMortyCachedService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

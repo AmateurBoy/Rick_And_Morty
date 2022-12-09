@@ -5,10 +5,10 @@ using Rick_And_Morty.Services;
 namespace Rick_And_Morty.Controllers
 {
     [ApiController]
-    public class CustomRickAndMorty : Controller
+    public class CustomRickAndMortyController : Controller
     {
-        readonly Service service;
-        public CustomRickAndMorty(Service service)
+        readonly IRickAndMortyCachedService service;
+        public CustomRickAndMortyController(IRickAndMortyCachedService service)
         {
             this.service = service;
         }

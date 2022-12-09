@@ -11,27 +11,27 @@ using Rick_And_Morty.DTO;
 using Rick_And_Morty.Services.Convertor;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Xml.Linq;
+using System.ComponentModel;
 
 namespace Rick_And_Morty.Services
 {
-    public class Service
+    public class RickAndMortyCachedService : IRickAndMortyCachedService
     {
         readonly IRickAndMortyService EmbeddedService = RickAndMortyApiFactory.Create();
-        readonly IConvertor<Character,CharacterDTO> convertor;
+        readonly IConvertor<Character, CharacterDTO> convertor;
         readonly IMemoryCache memoryCache;
-        public Service(IMemoryCache memoryCache, IConvertor<Character,CharacterDTO> convertor)
+        public RickAndMortyCachedService(IMemoryCache memoryCache, IConvertor<Character, CharacterDTO> convertor)
         {
             this.memoryCache = memoryCache;
             this.convertor = convertor;
         }
-        
         public async Task<bool?> IsValidationDataAsync(string? nameCharacter, string? nameEpisode)
         {
             string key = nameCharacter + nameEpisode;
             try
             {
                 Object obj = memoryCache.Get(key);
-                if(obj != null)
+                if (obj != null)
                 {
                     if (obj.GetType().IsSubclassOf(typeof(Exception)))
                     {
@@ -41,7 +41,6 @@ namespace Rick_And_Morty.Services
                     {
                         return Convert.ToBoolean(obj);
                     }
-                    
                 }
                 try
                 {
@@ -53,7 +52,7 @@ namespace Rick_And_Morty.Services
                     if (ResultCharacter == null)
                     {
                         var ex = new Exception("NameNotCorrect");
-                        CustomCacheSet(key, ex, 15);
+                        CustomCacheSet(key, ex);
                         throw ex;
                     }
                     #endregion
@@ -71,19 +70,16 @@ namespace Rick_And_Morty.Services
                     var result = Characters.FirstOrDefault(x => x.Name == nameCharacter);
                     if (result != null)
                     {
-                        CustomCacheSet(key, true, 15);
+                        CustomCacheSet(key, true);
                         return true;
                     }
-                    CustomCacheSet(key, false, 15);
+                    CustomCacheSet(key, false);
                     return false;
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    memoryCache.Set(key, ex, new MemoryCacheEntryOptions
-                    {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15)
-                    });
+                    CustomCacheSet(key, ex);
                     throw ex;
                 }
             }
@@ -93,7 +89,7 @@ namespace Rick_And_Morty.Services
             }
         }
         public async Task<CharacterDTO?> GetCharacterbyNameAsync(string name)
-        {            
+        {
             try
             {
                 Object obj = memoryCache.Get(name);
@@ -108,8 +104,7 @@ namespace Rick_And_Morty.Services
                         return (CharacterDTO?)obj;
                     }
                 }
-
-               try
+                try
                 {
                     var Characters = EmbeddedService.FilterCharacters(name).Result;
                     var Character = Characters.FirstOrDefault(x => x.Name == name);
@@ -120,15 +115,15 @@ namespace Rick_And_Morty.Services
                         characterDTO.origin.dimension = location.Dimension;
                         characterDTO.origin.type = location.Type;
 
-                        CustomCacheSet(name, characterDTO, 15);
+                        CustomCacheSet(name, characterDTO);
                         return characterDTO;
                     }
-                    var ex = new Exception("objNull");
-                    CustomCacheSet(name, ex, 15);
+                    var ex = new Exception("objNull");                    
                     throw ex;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
+                    CustomCacheSet(name, ex);
                     throw ex;
                 }
             }
@@ -138,6 +133,13 @@ namespace Rick_And_Morty.Services
             }
         }
         private void CustomCacheSet(string key, object value, double saveMinute)
+        {
+            memoryCache.Set(key, value, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(saveMinute)
+            });
+        }
+        private void CustomCacheSet(string key, object value)
         {
             memoryCache.Set(key, value, new MemoryCacheEntryOptions
             {

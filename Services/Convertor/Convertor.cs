@@ -23,7 +23,6 @@ namespace Rick_And_Morty.Services.Convertor
             characterDTO.origin.name = Base.Origin.Name;
 
             return characterDTO;
-
         }
     }
 }

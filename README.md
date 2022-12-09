@@ -1,13 +1,13 @@
 # Rick and Morty 
 .NET client for Rick And Morty knowledge base api: https://rickandmortyapi.com/
-![This is an image](https://rickandmortyapi.com/api/character/avatar/487.jpeg)
+![This is an image](https://upload.wikimedia.org/wikipedia/ru/thumb/c/c8/Rick_and_Morty_logo.png/640px-Rick_and_Morty_logo.png)
 
 A simple and stripped down wrapper for the Rick and Morty API. 
 Which contains 2 methods.
 
 ---
 ```cs
-    Service service = new();
+    IRickAndMortyCachedService service = new RickAndMortyCachedService();
 	string personName = "Rick Sanchez";
 	string episodeName = "Pilot";
 	await service.IsValidationDataAsync(personName, episodeName);
@@ -16,7 +16,7 @@ Which contains 2 methods.
 
 ---
 ```cs
-	Service service = new();
+	IRickAndMortyCachedService service = new RickAndMortyCachedService();
 	CharacterDTO? characterDTO = await requestAPI.GetCharacterbyNameAsync("Rick Sanchez");
 /* 
 response: 
