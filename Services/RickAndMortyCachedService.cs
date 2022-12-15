@@ -104,17 +104,26 @@ namespace Rick_And_Morty.Services
                         return (CharacterDTO?)obj;
                     }
                 }
+                
                 try
                 {
                     var Characters = EmbeddedService.FilterCharacters(name).Result;
-                    var Character = Characters.FirstOrDefault(x => x.Name == name);
+                    var Character = Characters.FirstOrDefault(x => x.Name == name);                   
                     if (Character != null)
                     {
-                        var characterDTO = convertor.Convert(Character);
-                        var location = await EmbeddedService.GetLocation(int.Parse(Character.Origin.Url.Segments[3]));
-                        characterDTO.origin.dimension = location.Dimension;
-                        characterDTO.origin.type = location.Type;
-
+                        CharacterDTO characterDTO = new();
+                        characterDTO = convertor.Convert(Character);
+                        if(Character.Origin.Url != null)
+                        {
+                            var location = await EmbeddedService.GetLocation(int.Parse(Character.Origin.Url.Segments[3]));
+                            characterDTO.origin.dimension = location.Dimension;
+                            characterDTO.origin.type = location.Type;
+                        }
+                        else
+                        {
+                            characterDTO.origin.dimension = "unknown";
+                            characterDTO.origin.type = "null";
+                        }
                         CustomCacheSet(name, characterDTO);
                         return characterDTO;
                     }
