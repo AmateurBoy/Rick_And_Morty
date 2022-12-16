@@ -50,7 +50,7 @@ Methods working a request.
 ---
 ```cs
     
-        IRequetService service = new RequetService(); or DI builder.Services.AddTransient<IRequestService, RequestRickAndMortyAPIService>();
+        IRequetService service = new RequestRickAndMortyAPIService(); or DI builder.Services.AddTransient<IRequestService, RequestRickAndMortyAPIService>();
         //Get Character by id.
         Task<FullCharacter> GetCharacterByIDAsync(int id);
         //Get characters by array id.
