@@ -111,9 +111,9 @@ namespace Rick_And_Morty.Services
                     {
                         CharacterDTO characterDTO = new();
                         characterDTO = convertor.Convert(Character);
-                        if (Character.origin.Url != null)
+                        if (Character.Origin.Url != null)
                         {
-                            var location = await requestService.GetLocationById(int.Parse(Character.origin.Url.Segments[3]));
+                            var location = await requestService.GetLocationById(int.Parse(Character.Origin.Url.Segments[3]));
                             characterDTO.Origin.Dimension = location.Dimension;
                             characterDTO.Origin.Type = location.Type;
                         }

@@ -34,8 +34,9 @@ namespace Rick_And_Morty.Services.Request_Service
         public async Task<IEnumerable<Character>> GetCharacterByName(string name)
         {
             var json = (await Client.GetAsync($"character/?name={name}")).Content.ReadAsStringAsync();
-            var list = JsonConvert.DeserializeObject<Page<FullCharacter>>(json.Result).Results;
-            var result = RickAndMortyMapper.mapper.Map<IEnumerable<Character>>(list);
+            var fullCharactersList = JsonConvert.DeserializeObject<Page<FullCharacter>>(json.Result).Results;            
+            var listresult = fullCharactersList.Where(x => x.Origin.Url != "").ToList();
+            var result = RickAndMortyMapper.mapper.Map<IEnumerable<Character>>(listresult);
             return result;
         }
         public async Task<IEnumerable<Episode>> GetEpisodeByName(string name)

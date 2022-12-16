@@ -4,13 +4,13 @@ namespace Rick_And_Morty.Data.APIObject.Character
 {
     public class Character
     {
-        public Character(int id = 0, string name = null, string status = null, 
-            string species = null, string type = null, 
-            string gender = null, 
-            CharacterOrigin origin = null,
-            CharacterLocation location = null,
-            string image = null,
-            List<string> episode = null, Uri url = null, DateTime? created = null)
+        public Character(int id = 0, string? name = null, string? status = null, 
+            string? species = null, string? type = null, 
+            string? gender = null, 
+            CharacterOrigin? origin = null,
+            CharacterLocation? location = null,
+            string? image = null,
+            IEnumerable<Uri>? episode = null, Uri? url = null, DateTime? created = null)
         {
             Id = id;
             Name = name;
@@ -18,8 +18,8 @@ namespace Rick_And_Morty.Data.APIObject.Character
             Species = species;
             Type = type;
             Gender = gender;
-            this.origin = origin;
-            this.location = location;
+            this.Origin = origin;
+            this.Location = location;
             Image = image;
             Episode = episode;
             Url = url;
@@ -32,11 +32,11 @@ namespace Rick_And_Morty.Data.APIObject.Character
         public string Species { get; set; }
         public string Type { get; set; }
         public string Gender { get; set; }
-        public CharacterOrigin origin { get; set; }
-        public CharacterLocation location { get; set; }
+        public CharacterOrigin? Origin { get; set; }
+        public CharacterLocation? Location { get; set; }
         public string Image { get; set; }
-        public List<string> Episode { get; set; }
-        public Uri Url { get; set; }
+        public IEnumerable<Uri>? Episode { get; set; }
+        public Uri? Url { get; set; }
         public DateTime? Created { get; set; }
 
     }

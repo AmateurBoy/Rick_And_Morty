@@ -20,7 +20,7 @@ namespace Rick_And_Morty.Services.Convertor
             characterDTO.Species = Base.Species;
             characterDTO.Type = Base.Type;
             characterDTO.Gender = Base.Gender.ToString();
-            characterDTO.Origin.Name = Base.origin.Name;
+            characterDTO.Origin.Name = Base.Origin.Name;
 
             return characterDTO;
         }

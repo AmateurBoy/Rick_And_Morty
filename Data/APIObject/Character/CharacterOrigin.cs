@@ -4,7 +4,7 @@ namespace Rick_And_Morty.Data.APIObject.Character
 {
     public class CharacterOrigin
     {
-        public CharacterOrigin(string name , Uri url)
+        public CharacterOrigin(string? name = "NotData", Uri? url=null)
         {
             Name = name;
             Url = url;
