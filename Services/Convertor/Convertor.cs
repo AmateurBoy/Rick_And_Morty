@@ -1,5 +1,5 @@
-﻿using Rick_And_Morty.DTO;
-using RickAndMorty.Net.Api.Models.Domain;
+﻿using Rick_And_Morty.Data.APIObject.Character;
+using Rick_And_Morty.DTO;
 
 namespace Rick_And_Morty.Services.Convertor
 {
@@ -13,14 +13,14 @@ namespace Rick_And_Morty.Services.Convertor
         {
             CharacterDTO characterDTO = new()
             {
-                origin = new()
+                Origin = new()
             };
-            characterDTO.name = Base.Name;
-            characterDTO.status = Base.Status.ToString();
-            characterDTO.species = Base.Species;
-            characterDTO.type = Base.Type;
-            characterDTO.gender = Base.Gender.ToString();
-            characterDTO.origin.name = Base.Origin.Name;
+            characterDTO.Name = Base.Name;
+            characterDTO.Status = Base.Status.ToString();
+            characterDTO.Species = Base.Species;
+            characterDTO.Type = Base.Type;
+            characterDTO.Gender = Base.Gender.ToString();
+            characterDTO.Origin.Name = Base.origin.Name;
 
             return characterDTO;
         }
