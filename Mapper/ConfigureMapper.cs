@@ -8,7 +8,7 @@ namespace Rick_And_Morty.Mapper
 {
     public class ConfigureMapper
     {
-        internal static IRickAndMortyMapper Customize()
+        internal static IRickAndMortyMapper CustomizeRickAndMorty()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -22,6 +22,7 @@ namespace Rick_And_Morty.Mapper
                     .ConstructUsing(cls =>
                         new CharacterOrigin(cls.Name, cls.Url.ToUri()));
 
+                //Received an exception due to a data mismatch in the API, I had to write a converter by hand
                 cfg.CreateMap<FullCharacter,Character>()
                     .ConstructUsing(cls =>
                     new Character(cls.Id,cls.Name,cls.Status,cls.Species,cls.Type,cls.Gender,

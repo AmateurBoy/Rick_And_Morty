@@ -4,12 +4,12 @@ namespace Rick_And_Morty.Data.APIObject.Character
 {
     public class Character
     {
-        public Character(int id = 0, string? name = null, string? status = null, 
-            string? species = null, string? type = null, 
-            string? gender = null, 
+        public Character(int id = 0, string? name = "", string? status = "", 
+            string? species = "", string? type = "", 
+            string? gender = "", 
             CharacterOrigin? origin = null,
             CharacterLocation? location = null,
-            string? image = null,
+            string? image = "",
             IEnumerable<Uri>? episode = null, Uri? url = null, DateTime? created = null)
         {
             Id = id;

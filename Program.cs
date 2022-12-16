@@ -16,7 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddTransient<IConvertor<Character, CharacterDTO>, Convertor>();
+builder.Services.AddTransient<IRequestService, RequestRickAndMortyAPIService>();
+builder.Services.AddTransient<IConvertor<Character, CharacterDTO>, ConvertorCharacter>();
 builder.Services.AddTransient<IRickAndMortyCachedService,RickAndMortyCachedService>();
 var app = builder.Build();
 

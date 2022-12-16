@@ -10,7 +10,7 @@ namespace Rick_And_Morty.Data.APIObject.Character
             Url = url;
         }
 
-        public string? Name { get; set; }
-        public Uri? Url { get; set; }
+        public string? Name { get; }
+        public Uri? Url { get; }
     }
 }

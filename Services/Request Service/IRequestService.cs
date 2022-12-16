@@ -6,10 +6,10 @@ namespace Rick_And_Morty.Services.Request_Service
 {
     public interface IRequestService
     {
-        Task<FullCharacter> GetCharacterByID(int id);
-        Task<IEnumerable<Character>> GetCharacterByName(string name);
-        Task<IEnumerable<FullCharacter>> GetCharacterMultiple(int[] ids);
-        Task<IEnumerable<Episode>> GetEpisodeByName(string name);
-        Task<FullLocation> GetLocationById(int id);
+        Task<FullCharacter> GetCharacterByIDAsync(int id);
+        Task<IEnumerable<Character>> GetCharacterByNameAsync(string name);
+        Task<IEnumerable<FullCharacter>> GetCharacterMultipleAsync(int[] ids);
+        Task<IEnumerable<Episode>> GetEpisodeByNameAsync(string name);
+        Task<FullLocation> GetLocationByIdAsync(int id);
     }
 }

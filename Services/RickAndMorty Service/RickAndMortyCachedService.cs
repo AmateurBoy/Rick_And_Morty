@@ -14,13 +14,14 @@ namespace Rick_And_Morty.Services
 {
     public class RickAndMortyCachedService : IRickAndMortyCachedService
     {
-        readonly IRequestService requestService = new RequestService(ConfigureMapper.Customize());
+        readonly IRequestService requestService;
         readonly IConvertor<Character, CharacterDTO> convertor;
         readonly IMemoryCache memoryCache;
-        public RickAndMortyCachedService(IMemoryCache memoryCache, IConvertor<Character,CharacterDTO> convertor)
+        public RickAndMortyCachedService(IMemoryCache memoryCache, IConvertor<Character,CharacterDTO> convertor,IRequestService requestService)
         {
             this.memoryCache = memoryCache;
             this.convertor = convertor;
+            this.requestService = requestService;
         }
         public async Task<bool?> IsValidationDataAsync(string? nameCharacter, string? nameEpisode)
         {
@@ -41,11 +42,11 @@ namespace Rick_And_Morty.Services
                 }
                 try
                 {
-                    //Дополнительная проверка на сооответствие имени.
-                    //Если имя все же не совпало значит имени не существует в базе дынных.
+                    //Additional check for name matching.
+                    //If the name still does not match, then the name does not exist in the melon database.
                     #region Checking the character's name                  
-                   
-                    var CharactersTest = requestService.GetCharacterByName(nameCharacter).Result;
+
+                    var CharactersTest = await requestService.GetCharacterByNameAsync(nameCharacter);
                     var ResultCharacter = CharactersTest.FirstOrDefault(x => x.Name == nameCharacter);
                     if (ResultCharacter == null)
                     {
@@ -55,15 +56,15 @@ namespace Rick_And_Morty.Services
                     }
                     #endregion
                     #region Checking the episode
-                    var Episodes = requestService.GetEpisodeByName(nameEpisode).Result;
+                    var Episodes = await requestService.GetEpisodeByNameAsync(nameEpisode);
 
                     //Segments[3] => id Character
                     var Segments = Episodes.Select(x => x.Characters.Select(x => x.Segments[3])).ToArray();
                     var idCharacter = Array.ConvertAll(Segments[0].ToArray(), element => int.Parse(element));
 
-                    //Получаем всех персонажей из єпизода.
-                    var Characters = await requestService.GetCharacterMultiple(idCharacter);
-                    //Проверка по имени.
+                    //Get all manifestations from the episode.
+                    var Characters = await requestService.GetCharacterMultipleAsync(idCharacter);
+                    //Check by name.
                     var result = Characters.FirstOrDefault(x => x.Name == nameCharacter);
                     if (result != null)
                     {
@@ -90,6 +91,7 @@ namespace Rick_And_Morty.Services
         {
             try
             {
+                //Check if the cache exists.
                 Object obj = memoryCache.Get(name);
                 if (obj != null)
                 {
@@ -105,7 +107,7 @@ namespace Rick_And_Morty.Services
 
                 try
                 {
-                    var Characters = requestService.GetCharacterByName(name).Result;
+                    var Characters = await requestService.GetCharacterByNameAsync(name);
                     var Character = Characters.FirstOrDefault(x => x.Name == name);
                     if (Character != null)
                     {
@@ -113,7 +115,7 @@ namespace Rick_And_Morty.Services
                         characterDTO = convertor.Convert(Character);
                         if (Character.Origin.Url != null)
                         {
-                            var location = await requestService.GetLocationById(int.Parse(Character.Origin.Url.Segments[3]));
+                            var location = await requestService.GetLocationByIdAsync(int.Parse(Character.Origin.Url.Segments[3]));
                             characterDTO.Origin.Dimension = location.Dimension;
                             characterDTO.Origin.Type = location.Type;
                         }

@@ -11,7 +11,7 @@
         public FullCharacterOrigin? Origin { get; set; }
         public FullCharacterLocation? Location { get; set; }
         public string Image { get; set; }
-        public IEnumerable<string> Episode { get; set; }
+        public string[] Episode { get; set; }
         public string Url { get; set; }
         public DateTime? Created { get; set; }
        

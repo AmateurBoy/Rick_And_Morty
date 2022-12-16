@@ -3,7 +3,7 @@ using Rick_And_Morty.DTO;
 
 namespace Rick_And_Morty.Services.Convertor
 {
-    public class Convertor : IConvertor<Character, CharacterDTO>
+    public class ConvertorCharacter : IConvertor<Character, CharacterDTO>
     {
         public Character Convert(CharacterDTO dto)
         {
