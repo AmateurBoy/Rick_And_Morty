@@ -2,17 +2,17 @@
 {
     public class CharacterDTO
     {
-        public string? name { get; set; }
-        public string? status { get; set; }
-        public string? species { get; set; }
-        public string? type { get; set; }
-        public string? gender { get; set; }
-        public Origin? origin {get;set;}
+        public string? Name { get; set; }
+        public string? Status { get; set; }
+        public string? Species { get; set; }
+        public string? Type { get; set; }
+        public string? Gender { get; set; }
+        public Origin? Origin {get;set;}
     }
     public class Origin
     {
-        public string? name { get; set; }
-        public string? type { get; set; }
-        public string? dimension { get; set; }
+        public string? Name { get; set; }
+        public string? Type { get; set; }
+        public string? Dimension { get; set; }
     }
 }

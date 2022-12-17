@@ -36,9 +36,9 @@ namespace Rick_And_Morty.Controllers
             catch
             {
                 return NotFound();
-            }         
+            }
         }
-        
+
 
     }
 }

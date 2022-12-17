@@ -1,8 +1,9 @@
 using Microsoft.Extensions.Caching.Memory;
+using Rick_And_Morty.Data.APIObject.Character;
 using Rick_And_Morty.DTO;
 using Rick_And_Morty.Services;
 using Rick_And_Morty.Services.Convertor;
-using RickAndMorty.Net.Api.Models.Domain;
+using Rick_And_Morty.Services.Request_Service;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddTransient<IConvertor<Character,CharacterDTO>,Convertor>();
-builder.Services.AddTransient<IRickAndMortyCachedService,RickAndMortyCachedService>();
+builder.Services.AddTransient<IRequestService, RequestRickAndMortyAPIService>();
+builder.Services.AddScoped<IConvertor<Character, CharacterDTO>, ConvertorCharacter>();
+builder.Services.AddScoped<IRickAndMortyCachedService,RickAndMortyCachedService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
