@@ -77,7 +77,6 @@ namespace Rick_And_Morty.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.StackTrace);
                     CustomCacheSet(key, ex);
                     throw ex;
                 }
